@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta da Sorte - PRÊMIO MIX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .wheel-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wheel {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+            background-image: conic-gradient(#ff6347, #f5deb3, #ff6347, #f5deb3, #ff6347, #f5deb3);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #ff6347;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #e53d34;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .whatsapp-link {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .whatsapp-link a {
+            color: #25D366;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Roleta da Sorte - PRÊMIO MIX</h1>
+
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="button" onclick="spinWheel()">Girar a Roleta!</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="whatsapp-link">
+        <p>Resgatar seu prêmio? Clique <a href="https://wa.me/5533984236115" target="_blank">aqui</a> para falar com a gente no WhatsApp!</p>
+    </div>
+
+    <script>
+        function spinWheel() {
+            let result = document.getElementById('result');
+            const prizes = [
+                { prize: "Ebook", weight: 1 },
+                { prize: "Consultoria", weight: 1 },
+                { prize: "Tente de novo", weight: 3 },
+                { prize: "Desconto 10%", weight: 1 },
+                { prize: "Desconto 50%", weight: 1 },
+                { prize: "Tente de novo", weight: 3 },
+                { prize: "Nada", weight: 2 }
+            ];
+
+            // Função para calcular a probabilidade de cada prêmio
+            const weightedPrizes = [];
+            prizes.forEach(p => {
+                for (let i = 0; i < p.weight; i++) {
+                    weightedPrizes.push(p.prize);
+                }
+            });
+
+            // Gira a roleta por alguns segundos
+            const spinDuration = 3000; // Tempo de giro em milissegundos (3 segundos)
+            const startAngle = Math.random() * 360;
+            const endAngle = Math.random() * 360 + 360 * 5; // Rotação maior para o efeito de giro
+
+            let currentAngle = startAngle;
+            let interval = setInterval(() => {
+                currentAngle += 10;
+                document.getElementById('wheel').style.transform = `rotate(${currentAngle}deg)`;
+
+                if (currentAngle >= endAngle) {
+                    clearInterval(interval);
+                    // Exibe o prêmio após o giro
+                    let randomIndex = Math.floor(Math.random() * weightedPrizes.length);
+                    result.textContent = `Você ganhou: ${weightedPrizes[randomIndex]}`;
+                }
+            }, 10);
+        }
+    </script>
+</body>
+</html>
